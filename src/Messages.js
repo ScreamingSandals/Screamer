@@ -44,11 +44,15 @@ module.exports = {
     CONFIGURE_TICKET_CHANNEL: "Now configure this ticket channel and then press Save",
     CHANGE_TITLE_NEW: "Now please write in this chat new `title` of the welcome embed.",
     CHANGE_DESCRIPTION_NEW: "Now please write in this chat new `description` of the welcome embed. `${channel}` will be replaced by ${channelHere}",
+    CHANGE_INFO_CHANNEL: "Now please mention in this chat the channel where you want to receive new ticket announcements or `null` if you want to disable that feature.",
     EXPIRES: "This action expires at",
     MOVE_COUNTER_: "Now write in this chat number of the next ticket or `null` if you want to cancel counter movement.",
     NAN: "**This is not a number!**",
     COUNTER_WILL_BE_MOVED: "Counter will be moved to `${number}`",
     TICKET_CHANNEL_UPDATED: "Ticket channel updated.  Now you can remove this message using the Dismiss message button.",
     TICKET_CHANNEL_CREATED: "Ticket channel successfully created.  Now you can remove this message using the Dismiss message button.",
-    PONG: "Pong!"
+    PONG: "Pong!",
+    SET_INFO_CHANNEL: "Set Info Channel",
+    NO_CHANNEL_ERR: "**Okay. Try it again and this time actually mention some channel.**",
+    INFO_CHANNEL_IS: "Info channel for this ticket channel is ${channel}"
 };

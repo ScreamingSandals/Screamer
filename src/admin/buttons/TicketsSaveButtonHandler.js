@@ -91,6 +91,7 @@ class TicketsSaveButtonHandler extends ButtonHandler {
                 channelConfiguration = await ChannelConfigurationManager.createChannel(ticketConfigurationProcess.guildId, ticketConfigurationProcess.channelId);
                 channelConfiguration.title = ticketConfigurationProcess.title;
                 channelConfiguration.description = ticketConfigurationProcess.description;
+                channelConfiguration.infoChannelId = ticketConfigurationProcess.infoChannelId;
                 if (ticketConfigurationProcess.moveCounter) {
                     channelConfiguration.count = ticketConfigurationProcess.moveCounter;
                 }

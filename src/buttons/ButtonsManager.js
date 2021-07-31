@@ -24,7 +24,9 @@ const handlers = [
     require('../admin/buttons/TicketsCancelTitleButtonHandler'),
     require('../admin/buttons/TicketsChangeDescriptionButtonHandler'),
     require('../admin/buttons/TicketsChangeTitleButtonHandler'),
-    require('../admin/buttons/TicketsSaveButtonHandler')
+    require('../admin/buttons/TicketsSaveButtonHandler'),
+    require('../admin/buttons/TicketsSetInfoChannelButtonHandler'),
+    require('../admin/buttons/TicketsCancelSetInfoChannelButtonHandler')
 ];
 
 class ButtonsManager extends null {

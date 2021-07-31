@@ -7,6 +7,7 @@ const TicketsChangeTitleButton = require("../admin/buttons/TicketsChangeTitleBut
 const TicketsChangeDescriptionButton = require("../admin/buttons/TicketsChangeDescriptionButton");
 const MoveCounterButton = require("../admin/buttons/MoveCounterButton");
 const TicketsCancelButton = require("../admin/buttons/TicketsCancelButton");
+const TicketsSetInfoChannelButton = require("../admin/buttons/TicketsSetInfoChannelButton");
 
 class TicketConfigurationProcess {
     /**
@@ -18,18 +19,20 @@ class TicketConfigurationProcess {
      * @param {number} expires
      * @param {?string} title
      * @param {?string} description
+     * @param {?string} infoChannelId
      */
-    constructor(interaction, userId, guildId, channelId, expires, title = null, description = null) {
+    constructor(interaction, userId, guildId, channelId, expires, title = null, description = null, infoChannelId = null) {
         this.interaction = interaction;
         this.userId = userId;
         this.guildId = guildId;
         this.channelId = channelId;
         this.expires = expires;
-        this.title = null;
-        this.description = null;
+        this.infoChannelId = infoChannelId;
+        this.title = title;
+        this.description = description;
         /**
          *
-         * @type {null|"TITLE"|"DESCRIPTION"|"COUNTER"}
+         * @type {null|"TITLE"|"DESCRIPTION"|"COUNTER"|"INFO"}
          */
         this.chatAction = null;
         /**
@@ -47,7 +50,9 @@ class TicketConfigurationProcess {
 
     sendBaseMessage() {
         this.interaction.editReply({
-            content: Messages.CONFIGURE_TICKET_CHANNEL + (this.moveCounter ? ('\n\n' + Messages.COUNTER_WILL_BE_MOVED.replace("${number}", this.moveCounter)) : ''),
+            content: Messages.CONFIGURE_TICKET_CHANNEL
+                + (this.moveCounter ? ('\n\n' + Messages.COUNTER_WILL_BE_MOVED.replace("${number}", this.moveCounter)) : '')
+                + (this.infoChannelId ? ('\n' + Messages.INFO_CHANNEL_IS.replace("${channel}", '<#' + this.infoChannelId + '>')) : ''),
             embeds: [
                 new MessageEmbed({
                     title: this.title || Messages.DEFAULT_TICKET_WELCOME_TITLE,
@@ -66,6 +71,7 @@ class TicketConfigurationProcess {
                         TicketsChangeTitleButton.button,
                         TicketsChangeDescriptionButton.button,
                         MoveCounterButton.button,
+                        TicketsSetInfoChannelButton.button,
                         TicketsCancelButton.button
                     ]
                 })

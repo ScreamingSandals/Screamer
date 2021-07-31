@@ -54,6 +54,22 @@ class MessageListener extends Listener {
                         c.sendBaseMessage();
                         message.delete();
                         return;
+                    case "INFO":
+                        if (message.content === 'null') {
+                            c.infoChannelId = null;
+                        } else if (!message.mentions.channels.first()) {
+                            c.interaction.editReply({
+                                content: Messages.NO_CHANNEL_ERR + '\n\n' + Messages.CHANGE_INFO_CHANNEL
+                            });
+                            message.delete();
+                            return;
+                        } else {
+                            c.infoChannelId = message.mentions.channels.first().id;
+                        }
+                        c.chatAction = null;
+                        c.sendBaseMessage();
+                        message.delete();
+                        return;
                 }
             }
 

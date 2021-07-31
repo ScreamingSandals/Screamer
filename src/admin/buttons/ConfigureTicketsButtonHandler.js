@@ -31,6 +31,7 @@ class ConfigureTicketsButtonHandler extends ButtonHandler {
         if (channelConfiguration) {
             configurationProcess.title = channelConfiguration.title;
             configurationProcess.description = channelConfiguration.description;
+            configurationProcess.infoChannelId = channelConfiguration.infoChannelId;
         }
 
         configurationProcess.sendBaseMessage();

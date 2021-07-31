@@ -1,0 +1,20 @@
+{
+  "author": "ScreamingSandals",
+  "name": "screamer",
+  "version": "1.0.0",
+  "main": "./src/index.js",
+  "scripts": {
+    "start": "node ."
+  },
+  "dependencies": {
+    "@discordjs/rest": "^0.1.0-canary.0",
+    "discord-api-types": "^0.21.0",
+    "discord.js": "dev",
+    "project-version": "^2.0.0",
+    "sequelize": "^6.6.5",
+    "sqlite3": "^5.0.2"
+  },
+  "engines": {
+    "node": ">=16.0.0"
+  }
+}

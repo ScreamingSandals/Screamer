@@ -48,7 +48,7 @@ class CloseTicketButtonHandler extends ButtonHandler {
                             .replace("${date}", new Date().toDateString()),
                         timestamp: msg.embeds[0].timestamp,
                         footer: {
-                            text: 'Screamer v' + version + ' ' + tsc
+                            text: 'Screamer v' + version + ' ' + tsc[1]
                         }
                     })
                 ],

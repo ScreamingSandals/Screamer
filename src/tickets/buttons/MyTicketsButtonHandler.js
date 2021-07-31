@@ -25,7 +25,7 @@ class MyTicketsButtonHandler extends ButtonHandler {
         for (let [, thread] of threads) {
             let messages = (await thread.messages.fetch());
             let msg = messages
-                .filter(value3 => value3.author.id === interaction.client.user.id && value3.type === "DEFAULT" && value3.embeds.length > 0 && value3.embeds[0].footer.text.includes('tsc:'))
+                .filter(value3 => value3.author.id === interaction.client.user.id && value3.type === "DEFAULT" && value3.embeds.length > 0 && value3.embeds[0].footer && value3.embeds[0].footer.text && value3.embeds[0].footer.text.includes('tsc:'))
                 .last();
             if (msg != null && msg.embeds.length > 0) {
                 let tsc = msg.embeds[0].footer.text.match(/(tsc:\d+:[A-Za-z0-9+/]+)/i);

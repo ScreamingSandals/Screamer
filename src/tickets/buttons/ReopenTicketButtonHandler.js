@@ -47,7 +47,7 @@ class ReopenTicketButtonHandler extends ButtonHandler {
                             description: Messages.THREAD_FIRST_MESSAGE.replace("${creator}", "<@" + creatorId + ">"),
                             timestamp: msg.embeds[0].timestamp,
                             footer: {
-                                text: 'Screamer v' + version + ' ' + tsc
+                                text: 'Screamer v' + version + ' ' + tsc[1]
                             }
                         })
                     ],

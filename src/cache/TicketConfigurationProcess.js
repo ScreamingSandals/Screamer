@@ -68,11 +68,15 @@ class TicketConfigurationProcess {
                 new MessageActionRow({
                     components: [
                         TicketsSaveButton.button,
+                        TicketsCancelButton.button
+                    ]
+                }),
+                new MessageActionRow({
+                    components: [
                         TicketsChangeTitleButton.button,
                         TicketsChangeDescriptionButton.button,
                         MoveCounterButton.button,
-                        TicketsSetInfoChannelButton.button,
-                        TicketsCancelButton.button
+                        TicketsSetInfoChannelButton.button
                     ]
                 })
             ]

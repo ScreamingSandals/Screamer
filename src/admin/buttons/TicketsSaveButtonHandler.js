@@ -34,6 +34,7 @@ class TicketsSaveButtonHandler extends ButtonHandler {
             if (channelConfiguration) {
                 channelConfiguration.title = ticketConfigurationProcess.title;
                 channelConfiguration.description = ticketConfigurationProcess.description;
+                channelConfiguration.infoChannelId = ticketConfigurationProcess.infoChannelId;
                 if (ticketConfigurationProcess.moveCounter) {
                     channelConfiguration.count = ticketConfigurationProcess.moveCounter;
                 }

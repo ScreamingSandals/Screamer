@@ -136,6 +136,25 @@ class ChannelConfiguration {
             });
     }
 
+    set count(count) {
+        this._count = count;
+
+        // update in db
+        this._db.channels.update({
+                count: this.count
+            },
+            {
+                where: {
+                    guildPlusChannelId: this.guildId + "/" + this.channelId
+                }
+            })
+            .catch(reason => {
+                console.log(reason);
+            });
+
+        return this._count;
+    }
+
     /**
      *
      * @return {Promise<number>}

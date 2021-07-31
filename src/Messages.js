@@ -19,9 +19,9 @@ module.exports = {
         "- Provide the configuration files if they have been changed\n" +
         "- Provide the plugin list\n" +
         "- If any `.yml` files have been changed, use [a YAML syntax checker](https://yamlchecker.com/)" +
-        "\n\nThis ticket was created by ${creator}.", // magic line
+        "\n\nThis ticket was created by ${creator}.",
     THREAD_FIRST_MESSAGE_CLOSED: "Ticket closed on ${date}" +
-        "\n\nThis ticket was created by ${creator}.", // magic line
+        "\n\nThis ticket was created by ${creator}.",
     CLOSED: "${user} closed this ticket.",
     OPENED: "${user} opened this ticket.",
     NO_TICKETS: "You haven't created any tickets yet!",

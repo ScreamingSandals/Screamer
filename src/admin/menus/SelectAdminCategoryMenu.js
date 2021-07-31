@@ -3,17 +3,6 @@ const Messages = require('../../Messages');
 
 class SelectAdminCategoryMenu extends Menu {
 
-    async handle(interaction) {
-        switch (interaction.values[0]) {
-            case "admin_tickets_category":
-                interaction.reply({
-                    content: 'Under construction.',
-                    ephemeral: true
-                });
-                break;
-        }
-    }
-
     get interactionName() {
         return "admin_select_category";
     }

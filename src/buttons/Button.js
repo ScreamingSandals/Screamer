@@ -1,7 +1,5 @@
 const {
-    ButtonInteraction,
     MessageButton,
-    MessageButtonStyles,
     MessageActionRow
 } = require('discord.js');
 
@@ -23,17 +21,11 @@ class Button {
     }
 
     /**
-     * @return {MessageButtonStyles}
+     * @return {"PRIMARY" | "SECONDARY" | "SUCCESS" | "DANGER" | "LINK"}
      */
     get color() {
-        return MessageButtonStyles.SECONDARY;
+        return "SECONDARY";
     }
-
-    /**
-     * @abstract
-     * @param {ButtonInteraction} interaction
-     */
-    async handle(interaction) {}
 
     /**
      *

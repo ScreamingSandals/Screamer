@@ -23,7 +23,7 @@ class CommandsManager extends null {
      */
     static async handleCommand(interaction) {
         let handler = handlers.find(value => value.commandName === interaction.commandName);
-        if (handler !== null) {
+        if (handler) {
             try {
                 await handler.handle(interaction);
             } catch (e) {

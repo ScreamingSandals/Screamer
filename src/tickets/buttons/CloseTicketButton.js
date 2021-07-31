@@ -1,14 +1,14 @@
 const Button = require('../../buttons/Button');
 const Messages = require('../../Messages');
 
-class MyTicketsButton extends Button {
+class CloseTicketButton extends Button {
     get interactionName() {
-        return "supportv2_my_tickets";
+        return "supportv2_mark_resolved";
     }
 
     get label() {
-        return Messages.MY_TICKETS;
+        return Messages.CLOSE;
     }
 }
 
-module.exports = new MyTicketsButton();
+module.exports = new CloseTicketButton();

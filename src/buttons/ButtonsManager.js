@@ -4,17 +4,19 @@ const {
 
 /**
  *
- * @type {Button[]}
+ * @type {ButtonHandler[]}
  */
 const handlers = [
-    require('./BruhButton'),
-    require('../tickets/buttons/CancelTicketCreationButton'),
-    require('../tickets/buttons/ChangeTicketTopicButton'),
-    require('../tickets/buttons/CloseTicketInteractionHandler'),
-    require('../tickets/buttons/ConfirmTicketCreationButton'),
-    require('../tickets/buttons/CreateTicketButton'),
-    require('../tickets/buttons/MyTicketsButton'),
-    require('../tickets/buttons/ReopenTicketButton')
+    require('./BruhButtonHandler'),
+    require('../tickets/buttons/CancelTicketCreationButtonHandler'),
+    require('../tickets/buttons/ChangeTicketTopicButtonHandler'),
+    require('../tickets/buttons/CloseTicketButtonHandler'),
+    require('../tickets/buttons/ConfirmTicketCreationButtonHandler'),
+    require('../tickets/buttons/CreateTicketButtonHandler'),
+    require('../tickets/buttons/MyTicketsButtonHandler'),
+    require('../tickets/buttons/ReopenTicketButtonHandler'),
+    require('../admin/buttons/BackToMainButtonHandler'),
+    require('../admin/buttons/ConfigureTicketsButtonHandler')
 ];
 
 class ButtonsManager extends null {
@@ -22,8 +24,8 @@ class ButtonsManager extends null {
      * @param {ButtonInteraction} interaction
      */
     static async handleButton(interaction) {
-        let handler = handlers.find(value => value.interactionName === interaction.id);
-        if (handler !== null) {
+        let handler = handlers.find(value => value.button.interactionName === interaction.customId);
+        if (handler) {
             try {
                 await handler.handle(interaction);
             } catch (e) {

@@ -1,8 +1,5 @@
 const Button = require('./Button');
 const Constants = require('../Constants');
-const {
-    MessageButtonStyles
-} = require('discord.js')
 
 class BruhButton extends Button {
     async handle(interaction) {
@@ -22,7 +19,7 @@ class BruhButton extends Button {
     }
 
     get color() {
-        return MessageButtonStyles.SUCCESS;
+        return "SUCCESS";
     }
 
     get label() {

@@ -1,6 +1,7 @@
 const Command = require('../../commands/Command');
 const Messages = require('../../Messages');
 const SelectAdminCategoryMenu = require('../menus/SelectAdminCategoryMenu');
+const InteractionCache = require('../../cache/InteractionCache');
 
 class AdminCommand extends Command {
 
@@ -24,7 +25,8 @@ class AdminCommand extends Command {
                     SelectAdminCategoryMenu.rowSingleMenu
                 ],
                 ephemeral: true
-            })
+            });
+            InteractionCache.put(interaction);
         } else {
             interaction.reply({
                 ephemeral: true,

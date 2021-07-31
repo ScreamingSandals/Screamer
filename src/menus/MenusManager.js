@@ -4,10 +4,10 @@ const {
 
 /**
  *
- * @type {Menu[]}
+ * @type {MenuHandler[]}
  */
 const handlers = [
-    require('../admin/menus/SelectAdminCategoryMenu')
+    require('../admin/menus/SelectAdminCategoryMenuHandler')
 ];
 
 class MenusManager extends null {
@@ -15,8 +15,8 @@ class MenusManager extends null {
      * @param {SelectMenuInteraction} interaction
      */
     static async handleMenu(interaction) {
-        let handler = handlers.find(value => value.interactionName === interaction.customId);
-        if (handler !== null) {
+        let handler = handlers.find(value => value.menu.interactionName === interaction.customId);
+        if (handler) {
             try {
                 await handler.handle(interaction);
             } catch (e) {

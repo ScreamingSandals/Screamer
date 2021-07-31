@@ -1,9 +1,14 @@
-const Button = require('../../buttons/Button');
+const ButtonHandler = require('../../buttons/ButtonHandler');
 const CancelInteractionHandler = require('./CancelTicketCreationButton');
 const Messages = require('../../Messages');
 const TempActions = require('../TempActions')
+const CreateTicketButton = require('./CreateTicketButton');
 
-class CreateTicketButton extends Button {
+class CreateTicketButtonHandler extends ButtonHandler {
+    get button() {
+        return CreateTicketButton;
+    }
+
     async handle(interaction) {
         if (TempActions.hasTempAction(interaction.user.id, interaction.guildId, interaction.channelId)) {
             await interaction.reply({
@@ -24,18 +29,6 @@ class CreateTicketButton extends Button {
             ephemeral: true
         });
     }
-
-    get interactionName() {
-        return "supportv2_start";
-    }
-
-    get color() {
-        return "PRIMARY";
-    }
-
-    get label() {
-        return Messages.CREATE_NEW_TICKET;
-    }
 }
 
-module.exports = new CreateTicketButton();
+module.exports = new CreateTicketButtonHandler();

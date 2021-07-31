@@ -1,5 +1,4 @@
 const {
-    SelectMenuInteraction,
     MessageSelectMenu,
     MessageActionRow,
     MessageSelectOption
@@ -15,13 +14,6 @@ class Menu {
      * @return {string}
      */
     get interactionName() {}
-
-
-    /**
-     * @abstract
-     * @param {SelectMenuInteraction} interaction
-     */
-    async handle(interaction) {}
 
     /**
      *

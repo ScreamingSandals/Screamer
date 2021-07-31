@@ -1,13 +1,18 @@
 const version = require('project-version');
-const Button = require('../../buttons/Button');
+const ButtonHandler = require('../../buttons/ButtonHandler');
 const ReopenTicketInteractionHandler = require('./ReopenTicketButton');
 const Messages = require('../../Messages');
 const {
     MessageEmbed
 } = require("discord.js");
 const Utils = require('../../Utils');
+const CloseTicketButton = require('./CloseTicketButton');
 
-class CloseTicketInteractionHandler extends Button {
+class CloseTicketButtonHandler extends ButtonHandler {
+    get button() {
+        return CloseTicketButton;
+    }
+
     async handle(interaction) {
         if (interaction.channel.isThread) {
             let msg = interaction.message;
@@ -55,14 +60,6 @@ class CloseTicketInteractionHandler extends Button {
             await interaction.channel.setArchived(true, "Closed");
         }
     }
-
-    get interactionName() {
-        return "supportv2_mark_resolved";
-    }
-
-    get label() {
-        return Messages.CLOSE;
-    }
 }
 
-module.exports = new CloseTicketInteractionHandler();
+module.exports = new CloseTicketButtonHandler();

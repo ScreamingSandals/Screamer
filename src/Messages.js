@@ -33,5 +33,8 @@ module.exports = {
     NOTHING_SELECTED: "Nothing selected",
     ADMIN_CATEGORY_TICKETS: "Tickets",
     ADMIN_CATEGORY_TICKETS_DESCRIPTION: "Ticket settings for this channel.",
-    COMMAND_ADMIN: "Welcome to the administration. Now please select the administration category. Some of these categories are bound to the channel."
+    COMMAND_ADMIN: "Welcome to the administration. Now please select the administration category. Some of these categories are bound to the channel.",
+    CHANNEL_NOT_CONFIGURED_FOR_TICKETS: "This channel is not configured for the ticket system yet. Do it by clicking Configure button.",
+    CONFIGURE: "Configure",
+    BACK: "Back"
 };

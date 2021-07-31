@@ -1,7 +1,6 @@
 const {
     MessageButton,
     MessageActionRow,
-    MessageButtonStyles,
     Util
 } = require('discord.js');
 
@@ -14,7 +13,7 @@ class Utils extends null {
      */
     static link(label, url) {
         return new MessageButton({
-            style: MessageButtonStyles.LINK,
+            style: "LINK",
             label: label,
             url: url
         })

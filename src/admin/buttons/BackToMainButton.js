@@ -1,14 +1,14 @@
 const Button = require('../../buttons/Button');
 const Messages = require('../../Messages');
 
-class MyTicketsButton extends Button {
+class BackToMainButton extends Button {
     get interactionName() {
-        return "supportv2_my_tickets";
+        return "admin_back_to_main";
     }
 
     get label() {
-        return Messages.MY_TICKETS;
+        return Messages.BACK;
     }
 }
 
-module.exports = new MyTicketsButton();
+module.exports = new BackToMainButton();

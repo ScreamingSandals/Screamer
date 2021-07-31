@@ -119,7 +119,7 @@ class ChannelConfiguration {
             });
     }
 
-    setDescription(description) {
+    set description(description) {
         this._description = description;
 
         // update in db

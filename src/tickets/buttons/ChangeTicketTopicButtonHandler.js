@@ -2,7 +2,7 @@ const ButtonHandler = require('../../buttons/ButtonHandler');
 const CancelInteractionHandler = require('./CancelTicketCreationButton');
 const Messages = require('../../Messages');
 const TempActions = require('../TempActions');
-const ChangeTicketTopicButton = require('./CancelTicketCreationButton');
+const ChangeTicketTopicButton = require('./ChangeTicketTopicButton');
 
 class ChangeTicketTopicButtonHandler extends ButtonHandler {
     get button() {

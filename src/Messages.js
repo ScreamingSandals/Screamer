@@ -36,5 +36,19 @@ module.exports = {
     COMMAND_ADMIN: "Welcome to the administration. Now please select the administration category. Some of these categories are bound to the channel.",
     CHANNEL_NOT_CONFIGURED_FOR_TICKETS: "This channel is not configured for the ticket system yet. Do it by clicking Configure button.",
     CONFIGURE: "Configure",
-    BACK: "Back"
+    BACK: "Back",
+    CHANGE_DESCRIPTION: "Change description",
+    CHANGE_TITLE: "Change title",
+    SAVE: "Save",
+    MOVE_COUNTER: "Move counter",
+    CONFIGURE_TICKET_CHANNEL: "Now configure this ticket channel and then press Save",
+    CHANGE_TITLE_NEW: "Now please write in this chat new `title` of the welcome embed.",
+    CHANGE_DESCRIPTION_NEW: "Now please write in this chat new `description` of the welcome embed. `${channel}` will be replaced by ${channelHere}",
+    EXPIRES: "This action expires at",
+    MOVE_COUNTER_: "Now write in this chat number of the next ticket or `null` if you want to cancel counter movement.",
+    NAN: "**This is not a number!**",
+    COUNTER_WILL_BE_MOVED: "Counter will be moved to `${number}`",
+    TICKET_CHANNEL_UPDATED: "Ticket channel updated.  Now you can remove this message using the Dismiss message button.",
+    TICKET_CHANNEL_CREATED: "Ticket channel successfully created.  Now you can remove this message using the Dismiss message button.",
+    PONG: "Pong!"
 };

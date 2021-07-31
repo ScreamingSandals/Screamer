@@ -16,7 +16,15 @@ const handlers = [
     require('../tickets/buttons/MyTicketsButtonHandler'),
     require('../tickets/buttons/ReopenTicketButtonHandler'),
     require('../admin/buttons/BackToMainButtonHandler'),
-    require('../admin/buttons/ConfigureTicketsButtonHandler')
+    require('../admin/buttons/MoveCounterButtonHandler'),
+    require('../admin/buttons/ConfigureTicketsButtonHandler'),
+    require('../admin/buttons/TicketsCancelButtonHandler'),
+    require('../admin/buttons/TicketsCancelCounterButtonHandler'),
+    require('../admin/buttons/TicketsCancelDescriptionButtonHandler'),
+    require('../admin/buttons/TicketsCancelTitleButtonHandler'),
+    require('../admin/buttons/TicketsChangeDescriptionButtonHandler'),
+    require('../admin/buttons/TicketsChangeTitleButtonHandler'),
+    require('../admin/buttons/TicketsSaveButtonHandler')
 ];
 
 class ButtonsManager extends null {

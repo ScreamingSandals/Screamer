@@ -11,7 +11,7 @@ const {
 const ChannelConfigurationManager = require('../database/ChannelConfigurationManager');
 const Constants = require("../Constants");
 const CommandsManager = require('../commands/CommandsManager');
-const {REST} = require("@discordjs/rest");
+const TicketConfigurationProcessCache = require('../cache/TicketConfigurationProcessCache');
 
 class MessageListener extends Listener {
     register(client) {
@@ -21,6 +21,40 @@ class MessageListener extends Listener {
                     message.delete();
                 }
                 return; // ignore
+            }
+
+            let c = TicketConfigurationProcessCache.getTempActionOrNull(message.author.id, message.guild.id, message.channel.id);
+            if (c) {
+                switch (c.chatAction) {
+                    case "TITLE":
+                        c.title = message.content;
+                        c.chatAction = null;
+                        c.sendBaseMessage();
+                        message.delete();
+                        return;
+                    case "DESCRIPTION":
+                        c.description = message.content;
+                        c.chatAction = null;
+                        c.sendBaseMessage();
+                        message.delete();
+                        return;
+                    case "COUNTER":
+                        if (message.content === 'null') {
+                            c.moveCounter = null;
+                        } else if (isNaN(message.content.trim())) {
+                            c.interaction.editReply({
+                                content: Messages.NAN + '\n\n' + Messages.MOVE_COUNTER_
+                            });
+                            message.delete();
+                            return;
+                        } else {
+                            c.moveCounter = parseInt(message.content);
+                        }
+                        c.chatAction = null;
+                        c.sendBaseMessage();
+                        message.delete();
+                        return;
+                }
             }
 
             if (await ChannelConfigurationManager.hasChannel(message.guild.id, message.channel.id)) {

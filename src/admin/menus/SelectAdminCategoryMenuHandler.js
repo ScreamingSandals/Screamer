@@ -8,6 +8,7 @@ const {
 const BackToMainButton = require('../buttons/BackToMainButton');
 const ConfigureTicketsButton = require('../buttons/ConfigureTicketsButton');
 const SelectAdminCategoryMenu = require('./SelectAdminCategoryMenu');
+const TicketConfigurationProcessCache = require("../../cache/TicketConfigurationProcessCache");
 
 class SelectAdminCategoryMenuHandler extends MenuHandler {
     get menu() {
@@ -23,7 +24,7 @@ class SelectAdminCategoryMenuHandler extends MenuHandler {
             case "admin_tickets_category":
                 interaction.deferUpdate();
                 let replyTo = InteractionCache.get(interaction.user.id, interaction.guildId, interaction.channelId, interaction.webhook.id);
-                if (replyTo == null) {
+                if (!replyTo) {
                     replyTo = interaction;
                     interaction.defer({
                         ephemeral: true
@@ -32,7 +33,19 @@ class SelectAdminCategoryMenuHandler extends MenuHandler {
 
                 let channelConfig = await ChannelConfigurationManager.getChannel(interaction.guildId, interaction.channelId);
                 if (channelConfig != null) {
+                    if (replyTo !== interaction) {
+                        InteractionCache.remove(replyTo);
+                    }
 
+                    let configurationProcess = TicketConfigurationProcessCache.createTempAction(replyTo, replyTo.user.id, replyTo.guildId, replyTo.channelId);
+
+                    let channelConfiguration = await ChannelConfigurationManager.getChannel(replyTo.guildId, replyTo.channelId);
+                    if (channelConfiguration) {
+                        configurationProcess.title = channelConfiguration.title;
+                        configurationProcess.description = channelConfiguration.description;
+                    }
+
+                    configurationProcess.sendBaseMessage();
                 } else {
                     replyTo.editReply({
                         content: Messages.CHANNEL_NOT_CONFIGURED_FOR_TICKETS,

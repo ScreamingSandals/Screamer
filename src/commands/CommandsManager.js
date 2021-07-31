@@ -13,8 +13,9 @@ const {
  *
  * @type {Command[]}
  */
-const handlers = [
-    require('../admin/commands/AdminCommand')
+const commands = [
+    require('../admin/commands/AdminCommand'),
+    require('./PingCommand')
 ];
 
 class CommandsManager extends null {
@@ -22,7 +23,7 @@ class CommandsManager extends null {
      * @param {CommandInteraction} interaction
      */
     static async handleCommand(interaction) {
-        let handler = handlers.find(value => value.commandName === interaction.commandName);
+        let handler = commands.find(value => value.commandName === interaction.commandName);
         if (handler) {
             try {
                 await handler.handle(interaction);
@@ -52,7 +53,7 @@ class CommandsManager extends null {
             }
 
             await rest.put(route, {
-                body: handlers.map(value => value.commandStructure)
+                body: commands.map(value => value.commandStructure)
             });
 
             console.log('Sucessfully reloaded application (/) commands.');

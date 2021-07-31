@@ -8,6 +8,7 @@ const {
  */
 let interactions = [];
 
+// doesn't work well because discord api can't return the snowflake id of the message if it's ephemeral
 class InteractionCache extends null {
     /**
      *
@@ -17,8 +18,10 @@ class InteractionCache extends null {
         if (!interactions.find(val => val === interaction)) {
             interactions.push(interaction);
             setTimeout(() => {
-                interactions.splice(interactions.indexOf(interaction), 1);
-            }, 900000);
+                if (interactions.indexOf(interaction) > -1) {
+                    interactions.splice(interactions.indexOf(interaction), 1);
+                }
+            }, 60000);
         }
     }
 
@@ -32,6 +35,16 @@ class InteractionCache extends null {
      */
     static get(userId, guildId, channelId, webhookId) {
         return interactions.find(value => value.user.id === userId && value.guildId === guildId && value.channelId === channelId && value.webhook.id === webhookId);
+    }
+
+    /**
+     *
+     * @param {Interaction} interaction
+     */
+    static remove(interaction) {
+        if (interactions.indexOf(interaction) > -1) {
+            interactions.splice(interactions.indexOf(interaction), 1);
+        }
     }
 }
 

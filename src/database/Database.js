@@ -54,7 +54,7 @@ class Database {
         let results = await this.channels.findAll();
         let channels = [];
         results.forEach(value => {
-            let {guildId, channelId} = value.get('guildPlusChannelId').split('/');
+            let [guildId, channelId] = value.get('guildPlusChannelId').split('/');
             let channel = new ChannelConfiguration(
                 this,
                 guildId,

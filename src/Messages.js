@@ -54,5 +54,7 @@ module.exports = {
     PONG: "Pong!",
     SET_INFO_CHANNEL: "Set info channel",
     NO_CHANNEL_ERR: "**Okay. Try it again and this time actually mention some channel.**",
-    INFO_CHANNEL_IS: "Info channel for this ticket channel is ${channel}."
+    INFO_CHANNEL_IS: "Info channel for this ticket channel is ${channel}.",
+    REACHED_MAX_1500_CHARS: "A maximum of **1500 characters** is allowed for the topic. You wrote **${count}** characters.",
+    TICKET_DESCRIPTION: "Ticket description"
 };

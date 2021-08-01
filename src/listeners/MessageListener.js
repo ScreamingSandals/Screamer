@@ -76,8 +76,14 @@ class MessageListener extends Listener {
             if (await ChannelConfigurationManager.hasChannel(message.guild.id, message.channel.id)) {
                 let action = TempActions.getTempActionOrNull(message.author.id, message.guild.id, message.channel.id);
                 if (action != null) {
-                    action.line = message.content;
                     await message.delete();
+                    if (message.content.length > 1500) {
+                        action.interaction.editReply({
+                            content: Messages.REACHED_MAX_1500_CHARS.replace("${count}", message.content.length) + '\n\n' + Messages.WRITE_TOPIC
+                        });
+                        return;
+                    }
+                    action.line = message.content;
                     action.interaction.editReply({
                         content: Messages.TOPIC_CHOSEN + "\n```\n" + action.line + "\n```",
                         components: [

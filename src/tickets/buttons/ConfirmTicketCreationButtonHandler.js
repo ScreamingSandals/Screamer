@@ -24,8 +24,12 @@ class ConfirmTicketCreationButtonHandler extends ButtonHandler {
 
             let number = await channelConfiguration.getAndIncrementCounter();
             let title = action.line;
+            let realTitle = '[' + number + '] ' + title;
+            if (realTitle.length > 100) {
+                realTitle = realTitle.substring(0, 97) + '...';
+            }
             let thread = await interaction.channel.threads.create({
-                name: '[' + number + '] ' + title,
+                name: realTitle,
                 reason: 'Ticket [' + number + '] created by ' + interaction.user.username + ' using ScreamingBot',
                 autoArchiveDuration: 1440
             });
@@ -53,23 +57,52 @@ class ConfirmTicketCreationButtonHandler extends ButtonHandler {
                 }
             }
 
-
-            thread.send({
-                embeds: [
-                    new MessageEmbed({
-                        color: "GREEN",
-                        title: title,
-                        description: Messages.THREAD_FIRST_MESSAGE.replace("${creator}", "<@" + interaction.user.id + ">"),
-                        timestamp: Date.now(),
-                        footer: {
-                            text: 'Screamer v' + version + ' ' + Utils.generateThreadSecretCode(number, interaction.user.id)
-                        }
-                    })
-                ],
-                components: [
-                    CloseTicketButton.rowSingleButton
-                ]
-            });
+            if (title.length > 100) {
+                await thread.send({
+                    embeds: [
+                        new MessageEmbed({
+                            color: "GREEN",
+                            title: realTitle.substr(realTitle.indexOf("]") + 2),
+                            description: Messages.THREAD_FIRST_MESSAGE.replace("${creator}", "<@" + interaction.user.id + ">"),
+                            timestamp: Date.now(),
+                            footer: {
+                                text: 'Screamer v' + version + ' ' + Utils.generateThreadSecretCode(number, interaction.user.id)
+                            }
+                        })
+                    ],
+                    components: [
+                        CloseTicketButton.rowSingleButton
+                    ]
+                });
+                thread.send({
+                    embeds: [
+                        new MessageEmbed({
+                            title: Messages.TICKET_DESCRIPTION,
+                            description: title,
+                            footer: {
+                                text: 'Screamer v' + version
+                            }
+                        })
+                    ]
+                })
+            } else {
+                thread.send({
+                    embeds: [
+                        new MessageEmbed({
+                            color: "GREEN",
+                            title: title,
+                            description: Messages.THREAD_FIRST_MESSAGE.replace("${creator}", "<@" + interaction.user.id + ">"),
+                            timestamp: Date.now(),
+                            footer: {
+                                text: 'Screamer v' + version + ' ' + Utils.generateThreadSecretCode(number, interaction.user.id)
+                            }
+                        })
+                    ],
+                    components: [
+                        CloseTicketButton.rowSingleButton
+                    ]
+                });
+            }
         }
     }
 }

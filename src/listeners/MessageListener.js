@@ -12,6 +12,8 @@ const ChannelConfigurationManager = require('../database/ChannelConfigurationMan
 const Constants = require("../Constants");
 const CommandsManager = require('../commands/CommandsManager');
 const TicketConfigurationProcessCache = require('../cache/TicketConfigurationProcessCache');
+const TicketsCancelChannelRemoveButton = require('../admin/buttons/TicketsCancelChannelRemoveButton');
+const TicketsChannelRemoveConfirmButton = require('../admin/buttons/TicketsChannelRemoveConfirmButton');
 
 class MessageListener extends Listener {
     register(client) {
@@ -68,6 +70,25 @@ class MessageListener extends Listener {
                         }
                         c.chatAction = null;
                         c.sendBaseMessage();
+                        message.delete();
+                        return;
+                    case "REMOVE":
+                        c.chatAction = null;
+                        if (message.content === Messages.DANGER_MESSAGE) {
+                            c.interaction.editReply({
+                                content: Messages.REMOVE_TICKET_CHANNEL_WARN,
+                                components: [
+                                    new MessageActionRow({
+                                        components: [
+                                            TicketsChannelRemoveConfirmButton.button,
+                                            TicketsCancelChannelRemoveButton.button
+                                        ]
+                                    })
+                                ]
+                            });
+                        } else {
+                            c.sendBaseMessage();
+                        }
                         message.delete();
                         return;
                 }

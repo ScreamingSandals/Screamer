@@ -57,6 +57,16 @@ class TempActions extends null {
             actions.splice(index, 1);
         }
     }
+
+    /**
+     *
+     * @param {string} guild
+     * @param {string} channel
+     * @returns {TempAction[]}
+     */
+    static getAllInChannel(guild, channel) {
+        return actions.filter(value => value.guildId === guild && value.channelId === channel);
+    }
 }
 
 module.exports = TempActions;

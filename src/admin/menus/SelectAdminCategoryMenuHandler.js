@@ -44,6 +44,7 @@ class SelectAdminCategoryMenuHandler extends MenuHandler {
                         configurationProcess.title = channelConfiguration.title;
                         configurationProcess.description = channelConfiguration.description;
                         configurationProcess.infoChannelId = channelConfiguration.infoChannelId;
+                        configurationProcess.existed = true;
                     }
 
                     configurationProcess.sendBaseMessage();

@@ -8,7 +8,7 @@
   },
   "dependencies": {
     "@discordjs/rest": "^0.1.0-canary.0",
-    "discord-api-types": "^0.21.0",
+    "discord-api-types": "^0.22.0",
     "discord.js": "dev",
     "project-version": "^2.0.0",
     "sequelize": "^6.6.5",

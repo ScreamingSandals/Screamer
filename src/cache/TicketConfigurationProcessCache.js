@@ -45,7 +45,7 @@ class TicketConfigurationProcessCache extends null {
         if (a != null) {
             return a;
         } else {
-            let na = new TicketConfigurationProcess(interaction, user, guild, channel, Date.now() + 900000);
+            let na = new TicketConfigurationProcess(interaction, user, guild, channel, Date.now() + 900000, false);
             actions.push(na);
             na.cancelTimeout = setTimeout(() => {
                 if (actions.indexOf(na) > -1) {

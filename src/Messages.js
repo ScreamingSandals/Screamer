@@ -1,3 +1,5 @@
+const dangerMessage = "I know what I am doing";
+
 module.exports = {
     WRITE_TOPIC: "Now please write the topic of your new ticket in this chat. The topic should describe your problem in just a few words.",
     CANCEL: "Cancel",
@@ -56,5 +58,10 @@ module.exports = {
     NO_CHANNEL_ERR: "**Okay. Try it again and this time actually mention some channel.**",
     INFO_CHANNEL_IS: "Info channel for this ticket channel is ${channel}.",
     REACHED_MAX_1500_CHARS: "A maximum of **1500 characters** is allowed for the topic. You wrote **${count}** characters.",
-    TICKET_DESCRIPTION: "Ticket description"
+    TICKET_DESCRIPTION: "Ticket description",
+    REMOVE_TICKET_CHANNEL: "Remove ticket channel",
+    DANGER_MESSAGE: dangerMessage,
+    CONFIRM_DANGER: "Write \"**" + dangerMessage + "**\" to confirm, any other message cancels this operation.",
+    REMOVE_TICKET_CHANNEL_WARN: "**Are you sure you want to remove this ticket channel? This operation cannot be undone.**\n\n*Any existing thread will remain however no one will be able to create new one. Welcome message will be removed.*",
+    TICKET_CHANNEL_REMOVED: "Ticket features have been removed from this channel."
 };

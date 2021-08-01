@@ -1,5 +1,7 @@
 const {
-    Interaction, MessageEmbed, MessageActionRow
+    Interaction,
+    MessageEmbed,
+    MessageActionRow
 } = require('discord.js');
 const Messages = require("../Messages");
 const TicketsSaveButton = require("../admin/buttons/TicketsSaveButton");
@@ -8,6 +10,7 @@ const TicketsChangeDescriptionButton = require("../admin/buttons/TicketsChangeDe
 const MoveCounterButton = require("../admin/buttons/MoveCounterButton");
 const TicketsCancelButton = require("../admin/buttons/TicketsCancelButton");
 const TicketsSetInfoChannelButton = require("../admin/buttons/TicketsSetInfoChannelButton");
+const TicketsChannelRemoveButton = require('../admin/buttons/TicketsChannelRemoveButton');
 
 class TicketConfigurationProcess {
     /**
@@ -17,22 +20,24 @@ class TicketConfigurationProcess {
      * @param {string} guildId
      * @param {string} channelId
      * @param {number} expires
+     * @param {boolean} existed
      * @param {?string} title
      * @param {?string} description
      * @param {?string} infoChannelId
      */
-    constructor(interaction, userId, guildId, channelId, expires, title = null, description = null, infoChannelId = null) {
+    constructor(interaction, userId, guildId, channelId, expires, existed, title = null, description = null, infoChannelId = null) {
         this.interaction = interaction;
         this.userId = userId;
         this.guildId = guildId;
         this.channelId = channelId;
         this.expires = expires;
+        this.existed = existed;
         this.infoChannelId = infoChannelId;
         this.title = title;
         this.description = description;
         /**
          *
-         * @type {null|"TITLE"|"DESCRIPTION"|"COUNTER"|"INFO"}
+         * @type {null|"TITLE"|"DESCRIPTION"|"COUNTER"|"INFO"|"REMOVE"}
          */
         this.chatAction = null;
         /**
@@ -77,6 +82,11 @@ class TicketConfigurationProcess {
                         TicketsChangeDescriptionButton.button,
                         MoveCounterButton.button,
                         TicketsSetInfoChannelButton.button
+                    ]
+                }),
+                new MessageActionRow({
+                    components: [
+                        TicketsChannelRemoveButton.button.setDisabled(!this.existed)
                     ]
                 })
             ]

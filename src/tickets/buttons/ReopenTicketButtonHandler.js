@@ -14,6 +14,11 @@ class ReopenTicketButtonHandler extends ButtonHandler {
     }
 
     async handle(interaction) {
+        if (interaction.channel == null) {
+            // I have no idea how to obtain the thread object
+            return;
+        }
+
         if (interaction.channel.isThread) {
             let msg = interaction.message;
             let creatorId;

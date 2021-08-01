@@ -63,5 +63,6 @@ module.exports = {
     DANGER_MESSAGE: dangerMessage,
     CONFIRM_DANGER: "Write \"**" + dangerMessage + "**\" to confirm, any other message cancels this operation.",
     REMOVE_TICKET_CHANNEL_WARN: "**Are you sure you want to remove this ticket channel? This operation cannot be undone.**\n\n*Any existing thread will remain however no one will be able to create new one. Welcome message will be removed.*",
-    TICKET_CHANNEL_REMOVED: "Ticket features have been removed from this channel."
+    TICKET_CHANNEL_REMOVED: "Ticket features have been removed from this channel.",
+    UPLOADED_ATTACHMENTS: "`${count}` attachments were uploaded and will be included in the ticket"
 };

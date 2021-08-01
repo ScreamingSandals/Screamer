@@ -1,5 +1,6 @@
 const {
-    MessageComponentInteraction
+    MessageComponentInteraction,
+    MessageAttachment
 } = require('discord.js');
 
 class TempAction {
@@ -27,6 +28,11 @@ class TempAction {
          * @type {?MessageComponentInteraction}
          */
         this.interaction = null;
+        /**
+         *
+         * @type {MessageAttachment[]}
+         */
+        this.attachments = [];
     }
 
     /**

@@ -97,6 +97,7 @@ class MessageListener extends Listener {
             if (await ChannelConfigurationManager.hasChannel(message.guild.id, message.channel.id)) {
                 let action = TempActions.getTempActionOrNull(message.author.id, message.guild.id, message.channel.id);
                 if (action != null) {
+                    let attachments = message.attachments.map(val => val);
                     await message.delete();
                     if (message.content.length > 1500) {
                         action.interaction.editReply({
@@ -105,8 +106,9 @@ class MessageListener extends Listener {
                         return;
                     }
                     action.line = message.content;
+                    action.attachments = attachments;
                     action.interaction.editReply({
-                        content: Messages.TOPIC_CHOSEN + "\n```\n" + action.line + "\n```",
+                        content: Messages.TOPIC_CHOSEN + "\n```\n" + action.line + "\n```" + (action.attachments.length > 0 ? ("\n" + Messages.UPLOADED_ATTACHMENTS.replaceAll('${count}', action.attachments.length)) : ''),
                         components: [
                             new MessageActionRow({
                                 components: [

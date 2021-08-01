@@ -74,7 +74,7 @@ class ConfirmTicketCreationButtonHandler extends ButtonHandler {
                         CloseTicketButton.rowSingleButton
                     ]
                 });
-                thread.send({
+                await thread.send({
                     embeds: [
                         new MessageEmbed({
                             title: Messages.TICKET_DESCRIPTION,
@@ -86,7 +86,7 @@ class ConfirmTicketCreationButtonHandler extends ButtonHandler {
                     ]
                 })
             } else {
-                thread.send({
+                await thread.send({
                     embeds: [
                         new MessageEmbed({
                             color: "GREEN",
@@ -101,6 +101,12 @@ class ConfirmTicketCreationButtonHandler extends ButtonHandler {
                     components: [
                         CloseTicketButton.rowSingleButton
                     ]
+                });
+            }
+
+            if (action.attachments.length > 0) {
+                await thread.send({
+                    files: action.attachments
                 });
             }
         }

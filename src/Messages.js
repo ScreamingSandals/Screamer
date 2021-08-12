@@ -15,7 +15,7 @@ module.exports = {
     TOPIC_CHOSEN: "You have chosen this topic:",
     TICKET_CREATED: "New ticket [${number}] has been successfully created! Use the button to open it.",
     OPEN_TICKET: "Open ticket",
-    TICKET_CREATED_LOG: "User ${tag} created a new ticket: [${number}] ${title}",
+    TICKET_CREATED_LOG: "<@&870204528165810176> User ${tag} created a new ticket: [${number}] ${title}",
     THREAD_FIRST_MESSAGE: "Thank you for using our ticket system. While waiting for support, you can provide us the following information to help us understand your problem:\n" +
         "- Provide the latest.log file\n" +
         "- Provide the configuration files if they have been changed\n" +

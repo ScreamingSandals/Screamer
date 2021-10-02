@@ -15,7 +15,10 @@ const {
  */
 const commands = [
     require('../admin/commands/AdminCommand'),
-    require('./PingCommand')
+    require('./PingCommand'),
+    require('../sniper/commands/EditSnipeCommand'),
+    require('../sniper/commands/SnipeCommand'),
+    require('../sniper/commands/ReactionSnipeCommand')
 ];
 
 class CommandsManager extends null {

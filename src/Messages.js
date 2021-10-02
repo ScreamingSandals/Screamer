@@ -64,5 +64,11 @@ module.exports = {
     CONFIRM_DANGER: "Write \"**" + dangerMessage + "**\" to confirm, any other message cancels this operation.",
     REMOVE_TICKET_CHANNEL_WARN: "**Are you sure you want to remove this ticket channel? This operation cannot be undone.**\n\n*Any existing thread will remain however no one will be able to create new one. Welcome message will be removed.*",
     TICKET_CHANNEL_REMOVED: "Ticket features have been removed from this channel.",
-    UPLOADED_ATTACHMENTS: "`${count}` attachments were uploaded and will be included in the ticket"
+    UPLOADED_ATTACHMENTS: "`${count}` attachments were uploaded and will be included in the ticket",
+    SNIPE_DESC: "Shows the last deleted message from a specified channel!",
+    EDIT_SNIPE_DESC: "Shows the last edited message from a specified channel!",
+    REACTION_SNIPE_DESC: "Shows the last removed reaction from a specified channel!",
+    CHANNEL_TO_SNIPE: "The channel to snipe",
+    NOTHING_TO_SNIPE: "There's nothing to snipe!",
+    REACTED_WITH: "reacted with ${emoji} on [this message](${message})"
 };

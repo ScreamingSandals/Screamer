@@ -1,0 +1,18 @@
+# Eclipse
+/bin
+.settings
+.project
+.classpath
+
+# IntelliJ
+.idea/
+*.iml
+
+# Gradle
+/.gradle
+/build/
+gradle-app.setting
+!gradle-wrapper.jar
+.gradletasknamecache
+
+/settings.json

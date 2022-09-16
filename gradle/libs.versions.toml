@@ -1,0 +1,14 @@
+[versions]
+slf4j = "1.7.36"
+configurate = "4.1.2"
+
+# plugins
+screaming-plugin-builder = "1.0.80"
+
+[libraries]
+slf4j-jdk14 = { group = "org.slf4j", name = "slf4j-jdk14", version.ref = "slf4j" }
+configurate-core = { group = "org.spongepowered", name = "configurate-core", version.ref = "configurate" }
+configurate-gson = { group = "org.spongepowered", name = "configurate-gson", version.ref = "configurate" }
+
+[plugins]
+screaming-plugin-builder-lite = { id = "org.screamingsandals.plugin-builder-lite", version.ref = "screaming-plugin-builder" }

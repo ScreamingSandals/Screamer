@@ -1,0 +1,32 @@
+plugins {
+    id 'java'
+    id 'application'
+    alias libs.plugins.screaming.plugin.builder.lite
+}
+
+defaultTasks 'clean', 'screamCompile'
+
+configureLombok()
+enableShadowPlugin()
+configureLicenser()
+
+application {
+    mainClass = 'org.screamingsandals.discord.Screamer'
+}
+
+repositories {
+    maven { url 'https://jitpack.io' }
+}
+
+// TODO: Switch to stable build with forum support when released net.dv8tion:JDA:VERSION
+
+dependencies {
+    implementation("com.github.DV8FromTheWorld:JDA:feature~forums-SNAPSHOT") {
+        exclude module: 'opus-java'
+    }
+    implementation libs.slf4j.jdk14
+    implementation libs.configurate.core
+    implementation libs.configurate.gson
+}
+
+sourceCompatibility = '17'

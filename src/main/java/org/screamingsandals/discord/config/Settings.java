@@ -23,13 +23,20 @@ import lombok.Getter;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.jetbrains.annotations.UnknownNullability;
+import org.screamingsandals.discord.forum.ForumConfiguration;
+import org.screamingsandals.discord.forum.ForumWelcomeMessage;
+import org.screamingsandals.discord.log.DiscordLogUtils;
 import org.spongepowered.configurate.ConfigurateException;
 import org.spongepowered.configurate.ConfigurationNode;
 import org.spongepowered.configurate.gson.GsonConfigurationLoader;
+import org.spongepowered.configurate.serialize.SerializationException;
 
 import java.io.File;
 import java.util.List;
+import java.util.Map;
+import java.util.Objects;
 
 @Slf4j
 @RequiredArgsConstructor
@@ -58,7 +65,19 @@ public class Settings {
                 .back()
                 .section("forum")
                     .key("enabled").defValue(true)
-                    .key("channels").defValue(List::of)
+                    .key("configurations").defValue(
+                        node -> node.node("default").set(
+                                ForumConfiguration
+                                        .builder()
+                                        .channels(List.of("PUT_CHANNEL_HERE"))
+                                        .reportChannel("PUT_YOUR_REPORT_CHANNEL_HERE_OR_REMOVE")
+                                        .welcomeMessages(Map.of(
+                                                "default", ForumWelcomeMessage.builder().title("default").description("fallback message when no tag is present").build(),
+                                                "FORUM_TAG_NAME", ForumWelcomeMessage.builder().title("EXAMPLE TITLE").description("EXAMPLE MESSAGE").build()
+                                        ))
+                                        .build()
+                        )
+                )
                 .back();
         // @formatter:on
         generator.saveIfModified();
@@ -67,5 +86,20 @@ public class Settings {
             log.info("File settings.json has been created, please fill in the token. Exiting...");
             System.exit(0);
         }
+    }
+
+    public @Nullable Map.Entry<@NotNull String, @NotNull ForumConfiguration> getForumConfigurationOfChannel(@NotNull String channelId) {
+        var configurations = node.node("forum", "configurations");
+        for (var child : configurations.childrenMap().entrySet()) {
+            if (child.getValue().node("channels").childrenList().stream().anyMatch(node1 -> channelId.equals(node1.getString()))) {
+                try {
+                    return Map.entry(child.getKey().toString(), Objects.requireNonNull(child.getValue().get(ForumConfiguration.class)));
+                } catch (SerializationException e) {
+                    e.printStackTrace();
+                    DiscordLogUtils.sendError(e);
+                }
+            }
+        }
+        return null;
     }
 }

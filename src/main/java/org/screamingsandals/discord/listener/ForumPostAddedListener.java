@@ -21,17 +21,22 @@ package org.screamingsandals.discord.listener;
 
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.channel.ChannelType;
 import net.dv8tion.jda.api.events.channel.ChannelCreateEvent;
 import net.dv8tion.jda.api.hooks.SubscribeEvent;
+import net.dv8tion.jda.api.utils.TimeUtil;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.screamingsandals.discord.config.Settings;
+import org.screamingsandals.discord.forum.ForumConfiguration;
 import org.screamingsandals.discord.forum.ForumManager;
 import org.screamingsandals.discord.forum.ForumPost;
 import org.screamingsandals.discord.log.DiscordLogUtils;
 import org.spongepowered.configurate.ConfigurateException;
 import org.spongepowered.configurate.serialize.SerializationException;
 
+import java.awt.*;
 import java.util.List;
 
 @Slf4j
@@ -57,18 +62,16 @@ public class ForumPostAddedListener {
             return;
         }
 
-        try {
-            if (!settings.getNode().node("forum", "channels").getList(String.class, List.of()).contains(parentSnowflake)) {
-                return;
-            }
-        } catch (SerializationException e) {
-            e.printStackTrace();
-            DiscordLogUtils.sendError(e);
+        var forumConfigurationEntry = settings.getForumConfigurationOfChannel(parentSnowflake);
+
+        if (forumConfigurationEntry == null) {
             return;
         }
 
+        var forumConfiguration = forumConfigurationEntry.getValue();
+
         var oldChannelName = threadChannel.getName();
-        var ticketId = forumManager.incrementTicketIdAndGet(parentSnowflake);
+        var ticketId = forumManager.incrementTicketIdAndGet(forumConfigurationEntry.getKey());
         var forumPost = ForumPost.builder()
                 .postSnowflake(threadChannel.getId())
                 .upstreamChannelSnowflake(parentSnowflake)
@@ -94,5 +97,50 @@ public class ForumPostAddedListener {
                 .queue();
 
         log.info("New ticket has been created: {}", forumPost);
+
+        var welcomeMessages = forumConfiguration.getWelcomeMessages();
+        @Nullable String welcomeKey = null;
+        for (var welcome : welcomeMessages.keySet()) {
+            if (threadChannel.getAppliedTags().stream().anyMatch(forumTag -> forumTag.getName().equals(welcome))) {
+                welcomeKey = welcome;
+                break;
+            }
+        }
+        if (welcomeKey == null && welcomeMessages.containsKey("default")) {
+            welcomeKey = "default";
+        }
+
+        if (welcomeKey != null) {
+            var embed = new EmbedBuilder()
+                    .setColor(Color.GREEN)
+                    .setTitle(welcomeMessages.get(welcomeKey).getTitle())
+                    .setDescription(welcomeMessages.get(welcomeKey).getDescription());
+            threadChannel.sendMessageEmbeds(embed.build()).setAllowedMentions(List.of()).queue();
+        }
+
+        var reportChannel = forumConfiguration.getReportChannel();
+        if (reportChannel != null) {
+            var embed = new EmbedBuilder()
+                    .setColor(forumPost.isClosed() ? Color.RED : Color.GREEN)
+                    .setTitle("Ticket opened: " + oldChannelName)
+                    .setDescription("Click on the mention to open the ticket:\n<#" + forumPost.getPostSnowflake() + ">")
+                    .addField("Created by", "<@" + forumPost.getCreatorSnowflake() + ">", true)
+                    .addField("Created at", "<t:" + TimeUtil.getTimeCreated(Long.parseLong(forumPost.getPostSnowflake())).toEpochSecond() + ">", true)
+                    .addField("Ticket ID", String.valueOf(forumPost.getTicketId()), true);
+            var channel = event.getJDA().getTextChannelById(reportChannel);
+            if (channel == null) {
+                return;
+            }
+            var message = channel.sendMessageEmbeds(embed.build()).setAllowedMentions(List.of()).complete();
+            forumPost.setReportMessageSnowflake(message.getId());
+            forumPost.setReportMessageChannelSnowflake(reportChannel);
+            forumManager.putForumPost(forumPost);
+            try {
+                forumManager.save();
+            } catch (ConfigurateException e) {
+                e.printStackTrace();
+                DiscordLogUtils.sendError(e);
+            }
+        }
     }
 }

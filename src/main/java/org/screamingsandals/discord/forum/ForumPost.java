@@ -5,6 +5,7 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 import org.spongepowered.configurate.objectmapping.ConfigSerializable;
 
 @ConfigSerializable
@@ -21,4 +22,8 @@ public class ForumPost {
     @Builder.Default
     private boolean closed = false;
     private long closedAt;
+    @Builder.Default
+    private @Nullable String reportMessageChannelSnowflake = null;
+    @Builder.Default
+    private @Nullable String reportMessageSnowflake = null;
 }

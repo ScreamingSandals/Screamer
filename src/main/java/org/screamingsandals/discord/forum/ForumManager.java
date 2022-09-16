@@ -56,8 +56,8 @@ public class ForumManager {
         loader.save(node);
     }
 
-    public int incrementTicketIdAndGet(String channelSnowflake) {
-        var localNode = node.node("ticketId", channelSnowflake);
+    public int incrementTicketIdAndGet(@NotNull String forumConfigurationName) {
+        var localNode = node.node("ticketId", forumConfigurationName);
         var ticketId = localNode.getInt() + 1;
         try {
             localNode.set(ticketId);

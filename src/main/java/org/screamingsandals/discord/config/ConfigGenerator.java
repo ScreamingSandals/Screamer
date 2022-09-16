@@ -116,6 +116,17 @@ public class ConfigGenerator {
                 return ConfigSection.this;
             }
 
+            public ConfigSection defValue(DefValueSetter defaultValue) throws SerializationException {
+                if (migration != null) {
+                    migrate();
+                }
+                if (selected.virtual()) {
+                    defaultValue.accept(selected);
+                    modified = true;
+                }
+                return ConfigSection.this;
+            }
+
             public ConfigSection moveIf(Predicate<ConfigurationNode> condition, Object... newKeys) throws SerializationException {
                 if (!selected.virtual() && condition.test(selected)) {
                     section.node(newKeys).from(selected);
@@ -217,5 +228,9 @@ public class ConfigGenerator {
         public ConfigSection back() {
             return Objects.requireNonNullElse(previous, this);
         }
+    }
+
+    public interface DefValueSetter {
+        void accept(ConfigurationNode node) throws SerializationException;
     }
 }

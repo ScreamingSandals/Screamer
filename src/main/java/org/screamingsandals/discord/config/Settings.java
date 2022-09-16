@@ -52,6 +52,10 @@ public class Settings {
         // @formatter:off
         generator.start()
                 .key("token").defValue("PUT YOUR TOKEN HERE")
+                .section("logChannel")
+                    .key("enabled").defValue(false)
+                    .key("channel").defValue("PUT CHANNEL HERE")
+                .back()
                 .section("forum")
                     .key("enabled").defValue(true)
                     .key("channels").defValue(List::of)

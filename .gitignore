@@ -16,3 +16,4 @@ gradle-app.setting
 .gradletasknamecache
 
 /settings.json
+/data/

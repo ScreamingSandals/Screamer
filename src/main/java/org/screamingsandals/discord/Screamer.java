@@ -21,10 +21,14 @@ package org.screamingsandals.discord;
 
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.JDABuilder;
+import net.dv8tion.jda.api.hooks.AnnotatedEventManager;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import org.screamingsandals.discord.config.Settings;
+import org.screamingsandals.discord.forum.ForumManager;
 import org.screamingsandals.discord.listener.ForumPostAddedListener;
+import org.screamingsandals.discord.listener.ForumPostArchivedOrUnarchivedListener;
 import org.screamingsandals.discord.listener.MessageListener;
+import org.screamingsandals.discord.log.DiscordLogUtils;
 import org.spongepowered.configurate.ConfigurateException;
 
 import java.io.File;
@@ -38,11 +42,26 @@ public class Screamer {
         settings.loadConfiguration();
         var node = settings.getNode();
 
+        var forumFile = new File("data/forum.json");
+
+        var forumManager = new ForumManager(forumFile);
+        forumManager.load();
+
         var jda = JDABuilder.createDefault(node.node("token").getString(""))
                 .enableIntents(GatewayIntent.GUILD_MESSAGES)
                 .enableIntents(GatewayIntent.MESSAGE_CONTENT)
-                .addEventListeners(new MessageListener(), new ForumPostAddedListener())
+                .setEventManager(new AnnotatedEventManager())
+                .addEventListeners(
+                        new MessageListener(settings, forumManager),
+                        new ForumPostAddedListener(settings, forumManager),
+                        new ForumPostArchivedOrUnarchivedListener(forumManager)
+                )
                 .build();
+
+        if (node.node("logChannel", "enabled").getBoolean()) {
+            DiscordLogUtils.logChannel = node.node("logChannel", "channel").getString();
+            DiscordLogUtils.jda = jda;
+        }
 
         jda.awaitReady();
     }

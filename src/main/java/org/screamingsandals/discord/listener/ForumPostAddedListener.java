@@ -19,30 +19,80 @@
 
 package org.screamingsandals.discord.listener;
 
+import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import net.dv8tion.jda.api.entities.channel.ChannelType;
-import net.dv8tion.jda.api.events.GenericEvent;
 import net.dv8tion.jda.api.events.channel.ChannelCreateEvent;
-import net.dv8tion.jda.api.hooks.EventListener;
+import net.dv8tion.jda.api.hooks.SubscribeEvent;
 import org.jetbrains.annotations.NotNull;
+import org.screamingsandals.discord.config.Settings;
+import org.screamingsandals.discord.forum.ForumManager;
+import org.screamingsandals.discord.forum.ForumPost;
+import org.screamingsandals.discord.log.DiscordLogUtils;
+import org.spongepowered.configurate.ConfigurateException;
+import org.spongepowered.configurate.serialize.SerializationException;
+
+import java.util.List;
 
 @Slf4j
-public class ForumPostAddedListener implements EventListener {
-    @Override
-    public void onEvent(@NotNull GenericEvent event) {
-        if (!(event instanceof ChannelCreateEvent postAddedEvent)) {
+@RequiredArgsConstructor
+public class ForumPostAddedListener {
+    private final @NotNull Settings settings;
+    private final @NotNull ForumManager forumManager;
+
+    @SubscribeEvent
+    public void onEvent(@NotNull ChannelCreateEvent event) {
+        if (!settings.getNode().node("forum", "enabled").getBoolean()) {
             return;
         }
 
-        if (postAddedEvent.getChannel().getType() != ChannelType.GUILD_PUBLIC_THREAD) {
+        if (event.getChannel().getType() != ChannelType.GUILD_PUBLIC_THREAD) {
             return;
         }
 
-        var threadChannel = postAddedEvent.getChannel().asThreadChannel();
-        if (threadChannel.getParentChannel().getType() != ChannelType.FORUM) {
+        var threadChannel = event.getChannel().asThreadChannel();
+        var parentSnowflake = threadChannel.getParentChannel().getId();
+
+        if (forumManager.isChannelRegistered(threadChannel.getId())) {
             return;
         }
 
-        log.info(threadChannel.toString());
+        try {
+            if (!settings.getNode().node("forum", "channels").getList(String.class, List.of()).contains(parentSnowflake)) {
+                return;
+            }
+        } catch (SerializationException e) {
+            e.printStackTrace();
+            DiscordLogUtils.sendError(e);
+            return;
+        }
+
+        var oldChannelName = threadChannel.getName();
+        var ticketId = forumManager.incrementTicketIdAndGet(parentSnowflake);
+        var forumPost = ForumPost.builder()
+                .postSnowflake(threadChannel.getId())
+                .upstreamChannelSnowflake(parentSnowflake)
+                .creatorSnowflake(threadChannel.getOwnerId())
+                .ticketId(ticketId)
+                .name(oldChannelName)
+                .build();
+        forumManager.putForumPost(forumPost);
+        try {
+            forumManager.save();
+        } catch (ConfigurateException e) {
+            e.printStackTrace();
+            DiscordLogUtils.sendError(e);
+        }
+
+        var newChannelName = "[" + ticketId + "] " + oldChannelName;
+        if (newChannelName.length() > 100) {
+            newChannelName = newChannelName.substring(0, 100);
+        }
+        threadChannel.getManager().setName(newChannelName)
+                .and(threadChannel.addThreadMember(threadChannel.getJDA().getSelfUser()))
+                .and(threadChannel.sendMessage("Your ticket `" + oldChannelName + "` got ID `[" + ticketId + "]`. Use this string for future reference!"))
+                .queue();
+
+        log.info("New ticket has been created: {}", forumPost);
     }
 }

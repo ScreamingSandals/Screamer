@@ -17,21 +17,12 @@
  * along with Screamer. If not, see <https://www.gnu.org/licenses/>.
  */
 
-package org.screamingsandals.discord.forum;
+package org.screamingsandals.discord;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
 import org.jetbrains.annotations.NotNull;
-import org.spongepowered.configurate.objectmapping.ConfigSerializable;
 
-@ConfigSerializable
-@Builder
-@Data
-@AllArgsConstructor
-@NoArgsConstructor
-public class ForumWelcomeMessage {
-    private @NotNull String title;
-    private @NotNull String description;
+public class InteractionConstants {
+    public static final @NotNull String INTERACTION_PREFIX = "screamingsandals_";
+
+    public static final @NotNull String BUTTON_TOGGLE_ARCHIVED = INTERACTION_PREFIX + "forum_toggle_archived";
 }

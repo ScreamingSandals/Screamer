@@ -58,8 +58,14 @@ public class MessageListener {
             }
         }*/
 
-        var matcher = MENTION_REGEX.matcher(event.getMessage().getContentRaw());
-        while (matcher.find()) {
+        var contentRaw = event.getMessage().getContentRaw();
+        if (contentRaw.length() > 100) {
+            return; // ignore long messages for ticket mentions
+        }
+
+        var matcher = MENTION_REGEX.matcher(contentRaw);
+        var i = 0;
+        while (i++ < 3 && matcher.find()) { // Allow only 3 mentions per message
             var ticketId = matcher.group(1);
             var ticketChannels = forumManager.getChannelsForTicketId(Integer.parseInt(ticketId))
                     .stream()

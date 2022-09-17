@@ -25,16 +25,17 @@ import net.dv8tion.jda.api.EmbedBuilder;
 import net.dv8tion.jda.api.entities.channel.ChannelType;
 import net.dv8tion.jda.api.events.channel.ChannelCreateEvent;
 import net.dv8tion.jda.api.hooks.SubscribeEvent;
+import net.dv8tion.jda.api.interactions.components.buttons.Button;
 import net.dv8tion.jda.api.utils.TimeUtil;
+import net.dv8tion.jda.api.utils.messages.MessageCreateBuilder;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
+import org.screamingsandals.discord.InteractionConstants;
 import org.screamingsandals.discord.config.Settings;
-import org.screamingsandals.discord.forum.ForumConfiguration;
 import org.screamingsandals.discord.forum.ForumManager;
 import org.screamingsandals.discord.forum.ForumPost;
 import org.screamingsandals.discord.log.DiscordLogUtils;
 import org.spongepowered.configurate.ConfigurateException;
-import org.spongepowered.configurate.serialize.SerializationException;
 
 import java.awt.*;
 import java.util.List;
@@ -92,8 +93,14 @@ public class ForumPostAddedListener {
             newChannelName = newChannelName.substring(0, 100);
         }
         threadChannel.getManager().setName(newChannelName)
+                .reason("User created a thread in a channel managed by Screamer. Because of this, a thread got a ticket which is now part of its name.")
                 .and(threadChannel.addThreadMember(threadChannel.getJDA().getSelfUser()))
-                .and(threadChannel.sendMessage("Your ticket `" + oldChannelName + "` got ID `[" + ticketId + "]`. Use this string for future reference!"))
+                .and(threadChannel.sendMessage(
+                        new MessageCreateBuilder()
+                                .setContent("Your ticket `" + oldChannelName + "` got ID `[" + ticketId + "]`. Use this string for future reference!")
+                                .setActionRow(Button.secondary(InteractionConstants.BUTTON_TOGGLE_ARCHIVED + ":" + forumPost.getPostSnowflake(), "Close"))
+                                .build()
+                ))
                 .queue();
 
         log.info("New ticket has been created: {}", forumPost);

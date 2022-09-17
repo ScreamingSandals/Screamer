@@ -25,6 +25,7 @@ import net.dv8tion.jda.api.hooks.AnnotatedEventManager;
 import net.dv8tion.jda.api.requests.GatewayIntent;
 import org.screamingsandals.discord.config.Settings;
 import org.screamingsandals.discord.forum.ForumManager;
+import org.screamingsandals.discord.listener.ButtonInteractionListener;
 import org.screamingsandals.discord.listener.ForumPostAddedListener;
 import org.screamingsandals.discord.listener.ForumPostArchivedOrUnarchivedListener;
 import org.screamingsandals.discord.listener.MessageListener;
@@ -54,7 +55,8 @@ public class Screamer {
                 .addEventListeners(
                         new MessageListener(settings, forumManager),
                         new ForumPostAddedListener(settings, forumManager),
-                        new ForumPostArchivedOrUnarchivedListener(forumManager)
+                        new ForumPostArchivedOrUnarchivedListener(forumManager),
+                        new ButtonInteractionListener(forumManager)
                 )
                 .build();
 
